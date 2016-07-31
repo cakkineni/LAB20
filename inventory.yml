@@ -1,2 +1,10 @@
 [openstack]
 127.0.0.1 ansible_connection=local sudo=true user=root
+
+[consul]
+ns1
+ns2
+[consul:vars]
+ansible_user=centos
+ansible_ssh_private_key_file=~/.ssh/mesterlab
+ansible_become=true

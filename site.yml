@@ -3,4 +3,9 @@
   
   roles:
     - openstack
+
+- name: consul server setup
+  hosts: consul
+ 
+  roles:
     - consul
