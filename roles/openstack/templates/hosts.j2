@@ -1,0 +1,3 @@
+{% for host in openstack_servers %}
+{{ host.interface_ip  }} {{ host.name }}
+{% endfor %}

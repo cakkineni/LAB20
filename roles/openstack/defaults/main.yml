@@ -1,0 +1,7 @@
+---
+# defaults file for openstack
+instances:
+ - ns1
+ - ns2
+ - lamp
+

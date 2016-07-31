@@ -1,0 +1,6 @@
+- name: Verify Instances
+  hosts: openstack
+  
+  roles:
+    - openstack
+    - consul
