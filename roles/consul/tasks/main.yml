@@ -12,5 +12,14 @@
    - name: Copy consul system service
      template: src=consul.service.j2 dest=/etc/systemd/system/consul.service
 
+   - name: "Build hosts file"
+     lineinfile: dest=/etc/hosts regexp='.*{{ item }}$' line="{{ hostvars[item].ansible_default_ipv4.address }} {{item}}" state=present
+     when: hostvars[item].ansible_default_ipv4.address is defined
+     with_items: groups['consul']
+
    - name: Start consul service
-     service: name=consul state=started enabled=yes
+     service: name=consul state=restarted enabled=yes
+
+   - name: Join Consul Cluster
+     command: /usr/sbin/consul join ns1
+

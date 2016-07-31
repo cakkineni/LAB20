@@ -2,10 +2,17 @@
   hosts: openstack
   
   roles:
-    - openstack
+#    - openstack
+
+- name: Common
+  hosts: consul
+
+  roles:
+     - common
 
 - name: consul server setup
   hosts: consul
  
   roles:
     - consul
+    
