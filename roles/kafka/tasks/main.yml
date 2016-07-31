@@ -1,0 +1,16 @@
+---
+# tasks file for kafka
+
+  - name: Install Confluent 3.0 Repo
+    copy: src=confluent3.repo dest=/etc/yum.repos.d/confluent3.repo
+    tags: repo
+
+  - name: Install Confluent 3.0 Platform
+    yum: name=confluent-platform-2.11 state=present
+    tags: repo
+
+  - name: Install Java SDK
+    yum: name=openjdk1.8-headless state=present
+
+ 
+

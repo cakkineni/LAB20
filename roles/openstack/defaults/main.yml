@@ -4,4 +4,5 @@ instances:
  - ns1
  - ns2
  - lamp
+ - kafka-01
 

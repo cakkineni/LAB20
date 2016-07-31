@@ -2,10 +2,10 @@
   hosts: openstack
   
   roles:
-#    - openstack
+#   - openstack
 
 - name: Common
-  hosts: consul
+  hosts: all
 
   roles:
      - common
@@ -15,4 +15,9 @@
  
   roles:
     - consul
-    
+
+- name: Kafka Servers
+  hosts: kafka
+
+  roles:
+    - kafka

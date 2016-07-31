@@ -8,3 +8,11 @@ ns2
 ansible_user=centos
 ansible_ssh_private_key_file=~/.ssh/mesterlab
 ansible_become=true
+
+[kafka]
+kafka-01
+
+[kafka:vars]
+ansible_user=centos
+ansible_ssh_private_key_file=~/.ssh/mesterlab
+ansible_become=true
