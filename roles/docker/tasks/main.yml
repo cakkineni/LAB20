@@ -1,0 +1,7 @@
+---
+# tasks file for docker
+  - name: install docker engine
+    yum: name=docker state=present
+
+  - name: start docker engine
+    service: name=docker state=restarted enabled=True

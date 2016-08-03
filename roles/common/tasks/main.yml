@@ -10,3 +10,28 @@
   - name: install Java 1.8 
     yum: name=java-1.8.0-openjdk state=present
 
+  - name: install pip
+    yum: name=python-pip state=present
+
+  - name: install python-consul
+    pip:
+      name: python-consul
+      state: present
+
+  - name: Register IP address with Consul
+    consul_kv:
+       host: ns1
+       state: present
+       key: "{{ansible_hostname}}/ip"
+       value: "{{ansible_default_ipv4}}"
+       validate_certs: False
+
+  - name: Register Host OS with Consul
+    consul_kv:
+       host: ns1
+       state: present
+       key: "{{ ansible_hostname }}/OS"
+       value: "{{ ansible_distribution }}"
+       validate_certs: False
+
+

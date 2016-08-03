@@ -1,2 +1,5 @@
 ---
 # handlers file for consul
+
+    - name: reload systemd
+      command: /usr/bin/systemctl daemon-reload

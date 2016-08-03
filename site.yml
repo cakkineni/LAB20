@@ -9,6 +9,8 @@
 
   roles:
      - common
+     - telegraf
+     - docker
 
 - name: consul server setup
   hosts: consul

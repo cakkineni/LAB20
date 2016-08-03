@@ -9,8 +9,4 @@
     yum: name=confluent-platform-2.11 state=present
     tags: repo
 
-  - name: Install Java SDK
-    yum: name=openjdk1.8-headless state=present
-
- 
 

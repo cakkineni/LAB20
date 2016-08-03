@@ -1,0 +1,15 @@
+---
+# tasks file for telegraf
+
+  - name: Install InfluxDB repo
+    template:  src=influxdb.repo.j2 dest=/etc/yum.repos.d/influxdb.repo
+
+  - name: Install telegraf
+    yum: name=telegraf state=present
+
+  - name: copy telegraf config
+    template: src=telegraf.conf.j2 dest=/etc/telegraf/telegraf.conf
+
+  - name: Start/Enable telegraf
+    service: name=telegraf state=restarted enabled=true
+
