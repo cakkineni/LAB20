@@ -1,0 +1,13 @@
+---
+# tasks file for chronograf
+
+  - name: Install Chronograf
+    yum:  name=chronograf state=present
+
+  - name: update config file for Chrongraf
+    template: src=chronograf.conf.j2 dest=/opt/chronograf/config.toml
+
+  - name: Start Chronograf
+    service: name=chronograf state=restarted enabled=true
+
+

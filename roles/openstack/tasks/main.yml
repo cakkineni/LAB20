@@ -15,6 +15,3 @@
 - name: update Openstack_Facts
   os_server_facts:
 
-- name: Create local hosts file
-  template: src=hosts.j2 dest=/home/mike/hosts
-

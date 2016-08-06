@@ -5,4 +5,5 @@ instances:
  - ns2
  - lamp
  - kafka-01
+ - db
 

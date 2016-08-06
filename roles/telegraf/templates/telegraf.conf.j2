@@ -65,6 +65,10 @@
 ###############################################################################
 #                            OUTPUT PLUGINS                                   #
 ###############################################################################
+[[outputs.influxdb]]
+  url = "http://db:8086" # required.
+  database = "telegraf" # required.
+  precision = "s"
 
 [[outputs.kafka]]
   ## URLs of kafka brokers

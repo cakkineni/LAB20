@@ -1,5 +1,5 @@
 [openstack]
-127.0.0.1 ansible_connection=local sudo=true user=root
+127.0.0.1 ansible_connection=local ansible_become=true
 
 [consul]
 ns1
@@ -13,6 +13,23 @@ ansible_become=true
 kafka-01
 
 [kafka:vars]
+ansible_user=centos
+ansible_ssh_private_key_file=~/.ssh/mesterlab
+ansible_become=true
+
+[db]
+db
+
+[db:vars]
+ansible_user=centos
+ansible_ssh_private_key_file=~/.ssh/mesterlab
+ansible_become=true
+
+
+[ui]
+ui
+
+[ui:vars]
 ansible_user=centos
 ansible_ssh_private_key_file=~/.ssh/mesterlab
 ansible_become=true

@@ -2,7 +2,7 @@
   hosts: openstack
   
   roles:
-#   - openstack
+   - openstack
 
 - name: Common
   hosts: all
@@ -23,3 +23,15 @@
 
   roles:
     - kafka
+
+- name: Database Servers
+  hosts: db
+ 
+  roles:
+    - influxdb
+
+- name: UI servers
+  hosts: ui
+ 
+  roles:
+    - chronograf
