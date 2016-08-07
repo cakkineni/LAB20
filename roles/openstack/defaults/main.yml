@@ -3,7 +3,7 @@
 instances:
  - ns1
  - ns2
- - lamp
+ - sensu
  - kafka-01
  - db
 

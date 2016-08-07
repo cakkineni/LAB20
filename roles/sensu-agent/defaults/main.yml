@@ -1,0 +1,7 @@
+---
+
+sensu_rabbitmq_server: "sensu"
+sensu_redis_server: "sensu"
+sensu_api_server: "sensu"
+
+

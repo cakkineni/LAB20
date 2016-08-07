@@ -1,0 +1,10 @@
+  - name: copy Sensu Repo for Debian
+    template: src=sensu_repo_debian.j2 dest=/etc/apt/sources.list.d/sensu_repo.list
+
+  - name: Ensure Ruby is installed (Debian family)
+    apt: name=ruby,ruby-dev,make  state="present"
+   
+
+  - name: Install Sensu and Client (Debian)
+    apt: name=sensu state="present" update_cache=no
+   

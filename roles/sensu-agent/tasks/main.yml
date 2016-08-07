@@ -1,0 +1,52 @@
+  - include: RedHat.yml
+    when: ansible_os_family == "RedHat"
+
+  - include: Debian.yml
+    when: ansible_os_family == "Debian"
+
+  - name: Install sensu plugin
+    command: gem install sensu-plugin 
+    tags: sensu-plugin
+
+  - name: Install Client Configuration
+    template: src=client-json.j2 dest=/etc/sensu/conf.d/client.json
+    notify: 
+    - Restart Sensu-Client Handler
+  - name: Update Sensu defaults 
+    template: src=sensu-defaults.j2 dest=/etc/default/sensu 
+    notify:
+    - Restart Sensu-Client Handler
+
+  - name: Install RabbitMQ Configuration
+    template: src=rabbitmq-json.j2 dest=/etc/sensu/conf.d/rabbitmq.json
+
+  - name: Copy Sensu plugins
+    synchronize: src=sensu-plugins/ dest=/etc/sensu/plugins/
+    tags: sensu-plugins
+
+  - name: Restart Sensu Client
+    service: name=sensu-client state=restarted enabled=true
+
+  - name: Install Check Elasticsearch Check
+    template: src=es_node_status_check.j2 dest=/etc/sensu/conf.d/es_node_status_check.json
+    when: ansible_hostname == "sensu"
+
+  - name: Install c++ compiler (RedHat)
+    yum: name=gcc-c++ state="present"
+    when: ansible_os_family == "RedHat" and '"Elasticsearch" in group_names'
+    tags: echo
+
+  - name: Install c++ compiler (Debian)
+    apt: name=g++ state="present"
+    when: ansible_os_family == "Debian" and '"Elasticsearch" in group_names'
+    tags: echo
+
+  - name: Install Elasticsearch Sensu Check
+    command: gem install sensu-plugins-elasticsearch
+    when: "'Elasticsearch' in group_names"
+    tags: echo
+
+  
+
+ # - name: Copy Base Sensu config file
+ #   template: src=config.j2 dest=/etc/sensu/conf.d/config.json backup=yes

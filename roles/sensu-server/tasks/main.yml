@@ -1,0 +1,44 @@
+---
+# tasks file for sensu-server
+
+- name: Install Redis
+  yum: name=redis state=present
+
+- name: Update redis.conf
+  template: src=redis.conf.j2 dest=/etc/redis.conf
+
+- name: Install RabbitMQ-Server
+  yum: name=rabbitmq-server state=present
+
+- name: Start redis
+  service: name=redis state=restarted enabled=true
+
+- name: start rabbitmq
+  service: name=rabbitmq-server state=restarted enabled=true
+
+- name: Add sensu vhost to RabbitMQ
+  rabbitmq_vhost: name=/sensu state=present
+
+- name: Add Sensu User to RabbitMQ
+  rabbitmq_user: user=sensu password=sensu vhost=/sensu configure_priv=.* read_priv=.* write_priv=.* state=present
+
+- name: Add server configuration to sensu
+  template: src=config.json.j2 dest=/etc/sensu/config.json
+
+- name: Restart Sensu Server
+  service: name=sensu-server state=restarted
+  when: ansible_hostname == "sensu"
+
+- name: Restart Sensu API
+  service: name=sensu-api state=restarted
+  when: ansible_hostname == "sensu"
+
+- name: Install Uchiwa
+  yum: name=uchiwa state=present
+  when: ansible_hostname == "sensu"
+
+- name: Start Uchiwa
+  service: name=uchiwa state=started enabled=true
+  when: ansible_hostname == "sensu"
+
+

@@ -1,0 +1,2 @@
+  - name: Restart Sensu-Client Handler
+    service: name=sensu-client state="restarted"

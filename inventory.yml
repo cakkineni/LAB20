@@ -8,6 +8,8 @@ ns2
 ansible_user=centos
 ansible_ssh_private_key_file=~/.ssh/mesterlab
 ansible_become=true
+subscriptions='"linux","consul"'
+
 
 [kafka]
 kafka-01
@@ -16,6 +18,8 @@ kafka-01
 ansible_user=centos
 ansible_ssh_private_key_file=~/.ssh/mesterlab
 ansible_become=true
+subscriptions='"linux","Kafka"'
+
 
 [db]
 db
@@ -24,6 +28,7 @@ db
 ansible_user=centos
 ansible_ssh_private_key_file=~/.ssh/mesterlab
 ansible_become=true
+subscriptions='"linux","database"'
 
 
 [ui]
@@ -33,3 +38,15 @@ ui
 ansible_user=centos
 ansible_ssh_private_key_file=~/.ssh/mesterlab
 ansible_become=true
+subscriptions='"linux","ui"'
+
+
+[sensu]
+sensu
+
+[sensu:vars]
+ansible_user=centos
+ansible_ssh_private_key_file=~/.ssh/mesterlab
+ansible_become=true
+subscriptions='"linux","sensu"'
+

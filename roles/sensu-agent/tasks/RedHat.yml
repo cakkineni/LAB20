@@ -1,0 +1,9 @@
+  - name: Setup Sensu Repo
+    template: src=sensu_repo.j2 dest=/etc/yum.repos.d/sensu_repo.repo
+  
+  - name: Ensure Ruby is installed (RedHat family)
+    yum: name=ruby,ruby-devel,make state=present
+    when: ansible_hostname != "rhel7"
+
+  - name: Install Sensu and Client
+    yum: name=https://sensu.global.ssl.fastly.net/yum/x86_64/sensu-0.25.3-1.x86_64.rpm  state=present

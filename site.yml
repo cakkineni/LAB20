@@ -9,8 +9,10 @@
 
   roles:
      - common
+     - sensu-agent
      - telegraf
      - docker
+     
 
 - name: consul server setup
   hosts: consul
@@ -35,3 +37,9 @@
  
   roles:
     - chronograf
+
+- name: Sensu
+  hosts: sensu
+
+  roles:
+    - sensu-server
