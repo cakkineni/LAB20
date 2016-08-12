@@ -8,3 +8,15 @@
 
   - name: Start InfluxDB 
     service: name=influxdb state=restarted enabled=true
+
+  - name: Install Chronograf
+    yum: name=chronograf state=present
+
+  - name: update Chronograf Configuration
+    lineinfile: dest=/opt/chronograf/config.toml  line="Bind = "127.0.0.1:10000"" state=absent
+
+  - name: add bind address 
+    lineinfile: dest=/opt/chronograf/config.toml line="bind="{{ ansible_default_ipv4.address }}:10000"" state=present
+
+  - name: start Chronograf
+    service: name=chronograf state=restarted enabled=true

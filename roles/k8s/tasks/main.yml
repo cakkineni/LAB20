@@ -1,0 +1,46 @@
+---
+# tasks file for k8s
+
+   - name: Copy File
+     copy: src=etcd-v2.3.1-linux-amd64.tar.gz dest=/tmp/etcd-v2.3.1-linux-amd64.tar.gz
+     tags: extract
+
+   - name: Uncompress Files
+     unarchive: src=etcd-v2.3.1-linux-amd64.tar.gz  dest=/tmp/
+     tags: extract
+  
+   - name: copy etcd binaries into path
+     copy: src=etcd  dest=/usr/bin mode=655
+     tags: extract
+
+   - name: copy etcdctl binary
+     copy: src=etcdctl dest=/usr/bin mode=655
+     tags: extract
+  
+   - name: Install GCC
+     yum: name=gcc state=present
+     tags: extract
+
+   - name: Retrieve GO libraries
+     unarchive: src=go1.6.1.linux-amd64.tar.gz dest=/usr/local
+     tags: extract
+   
+   - name: Edit the system profile path
+     lineinfile: line="export PATH=$PATH:/usr/local/go/bin" dest=/etc/profile state=present
+     tags: linein
+
+   - name: edit bash_profile
+     lineinfile: line="export PATH=$PATH:/usr/local/go/bin" dest=/root/.bashrc state=present
+     tags: linein
+
+   - name: unachive k8s binaries
+     unarchive: src=v1.3.0.tar.gz dest=/tmp
+     tags: extract
+
+   - name: Install curl
+     yum: name=curl state=present
+     tags: extract
+
+   - name: Compile K8S binaries
+     command: chdir=/tmp/kubernetes-1.3.0/  "hack/build-go.sh"
+     tags: compile

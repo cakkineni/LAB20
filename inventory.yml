@@ -50,3 +50,12 @@ ansible_ssh_private_key_file=~/.ssh/mesterlab
 ansible_become=true
 subscriptions='"linux","sensu"'
 
+[k8s]
+k8s-01
+k8s-02
+
+[k8s:vars]
+ansible_user=centos
+ansible_ssh_private_key_file=~/.ssh/mesterlab
+ansible_become=true
+subscriptions='"linux","sensu","k8s"'

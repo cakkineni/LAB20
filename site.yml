@@ -43,3 +43,9 @@
 
   roles:
     - sensu-server
+
+- name: k8s
+  hosts: k8s
+ 
+  roles:
+   - k8s

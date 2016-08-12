@@ -6,4 +6,6 @@ instances:
  - sensu
  - kafka-01
  - db
+ - k8s-01
+ - k8s-02
 
