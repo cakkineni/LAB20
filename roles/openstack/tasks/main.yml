@@ -3,11 +3,11 @@
 - name: Ensure we have a instance
   os_server: 
       state: present
-      name: "{{ item }}"
+      name: "{{ item.name }}"
       image: 59c75822-4c5f-466a-8d98-825bf0e3e1c1
       key_name: mesterlab
       timeout: 200
-      flavor: 3
+      flavor: "{{ item.flavor }}"
       security_groups: default
       auto_ip: yes
   with_items: "{{ instances }}"
