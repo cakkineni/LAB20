@@ -2,7 +2,7 @@
   hosts: openstack
   
   roles:
-#   - openstack
+   - openstack
 
 - name: Common
   hosts: all

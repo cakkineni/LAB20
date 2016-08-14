@@ -1,46 +1,63 @@
 ---
 # tasks file for k8s
 
-   - name: Copy File
-     copy: src=etcd-v2.3.1-linux-amd64.tar.gz dest=/tmp/etcd-v2.3.1-linux-amd64.tar.gz
-     tags: extract
+- name: Install Kubernetes Repo
+  yum_repository:
+    name: k8s
+    description: Kubernetes
+    baseurl: http://cbs.centos.org/repos/virt7-docker-common-release/x86_64/os/
+    gpgcheck: no
 
-   - name: Uncompress Files
-     unarchive: src=etcd-v2.3.1-linux-amd64.tar.gz  dest=/tmp/
-     tags: extract
-  
-   - name: copy etcd binaries into path
-     copy: src=etcd  dest=/usr/bin mode=655
-     tags: extract
+- name: Install Kubernetes 
+  yum: name=kubernetes state=present
 
-   - name: copy etcdctl binary
-     copy: src=etcdctl dest=/usr/bin mode=655
-     tags: extract
-  
-   - name: Install GCC
-     yum: name=gcc state=present
-     tags: extract
+- name: Install etcd
+  yum: name=etcd state=present
 
-   - name: Retrieve GO libraries
-     unarchive: src=go1.6.1.linux-amd64.tar.gz dest=/usr/local
-     tags: extract
-   
-   - name: Edit the system profile path
-     lineinfile: line="export PATH=$PATH:/usr/local/go/bin" dest=/etc/profile state=present
-     tags: linein
+- name: Copy Kubernetes configuration file
+  template: src=k8s_config.j2 dest=/etc/kubernetes/config
 
-   - name: edit bash_profile
-     lineinfile: line="export PATH=$PATH:/usr/local/go/bin" dest=/root/.bashrc state=present
-     tags: linein
+- name: Disable FirewallD service
+  service: name=firewalld state=stopped enabled=false
+  ignore_errors: true
 
-   - name: unachive k8s binaries
-     unarchive: src=v1.3.0.tar.gz dest=/tmp
-     tags: extract
+- name: Disabe iptables-services
+  service: name=iptables-services state=stopped enabled=false
+  ignore_errors: true
 
-   - name: Install curl
-     yum: name=curl state=present
-     tags: extract
+- name: Copy Kubelet configuration
+  template: src=kubelet.j2 dest=/etc/kubernetes/kubelet
 
-   - name: Compile K8S binaries
-     command: chdir=/tmp/kubernetes-1.3.0/  "hack/build-go.sh"
-     tags: compile
+- name: Copy EtcD on master
+  template: src=etcd_conf.j2 dest=/etc/etcd/etcd.conf
+  when: inventory_hostname == "k8s-01"
+
+- name: Copy API server on master
+  template: src=apiserver.j2 dest=/etc/kubernetes/apiserver
+  when: inventory_hostname == "k8s-01"
+
+- name: Start EtcD on Master
+  service: name=etcd state=restarted enabled=true
+  when: inventory_hostname == "k8s-01"
+
+- name: Start kube-apiserver 
+  service: name=kube-apiserver state=restarted enabled=true
+  when: inventory_hostname == "k8s-01"
+
+- name: Start kube-controller-manager
+  service: name=kube-controller-manager state=restarted enabled=true
+  when: inventory_hostname == "k8s-01"
+
+- name: Start kube-scheduler
+  service: name=kube-scheduler state=restarted enabled=true
+  when: inventory_hostname == " k8s-01"
+
+
+- name: Restart kube-proxy
+  service: name=kube-proxy state=restarted enabled=true
+  when: inventory_hostname == "k8s-02"
+
+- name: Restart kubelet
+  service: name=kubelet state=restarted enabled=true
+  when: inventory_hostname == "k8s-02"
+
